@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <RootNamespace>Clinic_BD</RootNamespace>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EntityFrameworkCore.CommonTools" Version="2.0.2" />
+      <PackageReference Include="GrapeCity.DataVisualization.Chart" Version="0.4.136" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.12">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.12">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Forms\Auth\LoginForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Auth\PatientLoginForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Auth\AdminLoginForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Auth\RegistrationForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Patients\PatientMainForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Admin\AdminMainForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Admin\AddAppointmentForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Admin\AddReferralForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\Admin\AddTestOrderForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+    </ItemGroup>
+
+</Project>
