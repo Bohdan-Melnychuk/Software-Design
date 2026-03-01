@@ -64,26 +64,22 @@ namespace Clinic_BD.Forms.Auth
 
             try
             {
-                using (var db = new ApplicationDbContext())
-                {
-                    var doctor = db.Doctors.FirstOrDefault(d => 
-                        d.Email == loginInput && d.Password == passwordInput);
+                var authService = new Clinic_BD.Services.AuthService();
+                var doctor = authService.AuthenticateAdmin(loginInput, passwordInput);
 
-                    if (doctor != null)
-                    {
-                        var adminForm = new AdminMainForm();
-                        adminForm.Show();
-                        this.Hide(); 
-                    }
-                    else
-                    {
-                        MessageBox.Show("Невірний логін або пароль адміністратора!", "Помилка доступу", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
+                if (doctor != null)
+                {
+                    new AdminMainForm().Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Невірний логін або пароль!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Критична помилка БД: {ex.Message}");
+                MessageBox.Show($"Помилка: {ex.Message}");
             }
         }
     }
