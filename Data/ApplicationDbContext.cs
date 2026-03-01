@@ -8,7 +8,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Specialty> Specialties { get; set; }
-    public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }    
     public DbSet<Referral> Referrals { get; set; }
     public DbSet<Visit> Visits { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }
@@ -441,7 +441,11 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(
-            "Server=localhost;Database=Kursova;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False");
+        const string connectionString = "Server=localhost;Database=Kursova;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False";
+
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
     }
 }
