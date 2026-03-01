@@ -89,27 +89,32 @@ namespace Clinic_BD.Forms.Admin
             };
 
             btn.Click += (s, e) => {
-                if (cbP.SelectedValue != null && cbD.SelectedValue != null) {
-                    
+                if (cbP.SelectedValue == null || cbD.SelectedValue == null) {
+                    MessageBox.Show("Будь ласка, оберіть пацієнта та лікаря!", "Помилка валідації", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtp.Value < DateTime.Now) {
+                    MessageBox.Show("Не можна створити запис на минулу дату або час!", "Помилка валідації", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                try {
                     DateTime fullDateTime = dtp.Value;
-                    
                     TimeSpan cleanTime = new TimeSpan(fullDateTime.Hour, fullDateTime.Minute, 0);
 
                     NewAppointment = new Appointment {
                         PatientId = (int)cbP.SelectedValue,
                         DoctorId = (int)cbD.SelectedValue,
                         ReferralId = 1, 
-                        
                         AppointmentDate = fullDateTime.Date,
                         AppointmentTime = cleanTime,
-                        
                         Status = "заплановано",
                         Notes = string.IsNullOrWhiteSpace(txtNotes.Text) ? "Плановий візит" : txtNotes.Text.Trim(),
                         CreateAt = DateTime.Now
                     };
                     
-                    var newVisit = new Visit
-                    {
+                    var newVisit = new Visit {
                         Appointment = NewAppointment,
                         VisitDate = NewAppointment.AppointmentDate,
                         Symptoms = NewAppointment.Notes,
@@ -117,16 +122,15 @@ namespace Clinic_BD.Forms.Admin
                         VisitNotes = "Автоматично створений після запису"
                     };
 
-                    using (var db = new ApplicationDbContext())
-                    {
-                        db.Appointments.Add(NewAppointment);
-                        db.Visits.Add(newVisit);
-                        db.SaveChanges();
+                    using (var dbContext = new ApplicationDbContext()) {
+                        dbContext.Appointments.Add(NewAppointment);
+                        dbContext.Visits.Add(newVisit);
+                        dbContext.SaveChanges();
                     }
                     this.DialogResult = DialogResult.OK;
-                    
-                } else {
-                    MessageBox.Show("Будь ласка, оберіть пацієнта та лікаря!", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                } 
+                catch (Exception ex) {
+                    MessageBox.Show($"Помилка при збереженні: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
 
