@@ -22,6 +22,8 @@ namespace Lab_3_StructuralPatterns.Task5_Composite
         }
 
         public void Add(LightNode node) => _children.Add(node);
+        public void Remove(LightNode node) => _children.Remove(node);
+        public IReadOnlyList<LightNode> ChildNodes => _children;
         public int ChildrenCount => _children.Count;
 
         public override string InnerHTML
